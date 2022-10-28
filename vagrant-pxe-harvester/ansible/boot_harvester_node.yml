@@ -17,13 +17,14 @@
     vagrant up harvester-node-{{ node_number }}
   register: harvester_node_boot_result
 
-- name: wait for Harvester Node {{ harvester_node_ip }} to get ready
-  uri:
-    url: "https://{{ harvester_node_ip }}"
-    validate_certs: no
-    status_code: 200
-    timeout: 120
-  register: auth_modes_lookup_result
-  until: auth_modes_lookup_result.status == 200
-  retries: 20
-  delay: 120
+# disable this check for automated testing
+#- name: wait for Harvester Node {{ harvester_node_ip }} to get ready
+#  uri:
+#    url: "https://{{ harvester_node_ip }}"
+#    validate_certs: no
+#    status_code: 200
+#    timeout: 120
+#  register: auth_modes_lookup_result
+#  until: auth_modes_lookup_result.status == 200
+#  retries: 20
+#  delay: 120
