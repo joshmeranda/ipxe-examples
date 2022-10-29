@@ -28,3 +28,15 @@
 #  until: auth_modes_lookup_result.status == 200
 #  retries: 20
 #  delay: 120
+
+- name: "clear Harvester Node {{ harvester_node_ip }} from hosts file"
+  shell: >
+    ssh-keygen -R {{ harvester_node_ip }} -f /$HOME/.ssh/known_hosts
+
+- name: "wait for ssh connection to Harvester Node {{ harvester_node_ip }}"
+  shell: >
+    sshpass -p password1234 ssh -o ConnectTimeout=10 rancher@{{ harvester_node_ip }} -- exit
+  register: boot_harvester_ssh
+  retries: 20
+  delay: 30
+  until: boot_harvester_ssh.rc == 0
